@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="bootstrap.css">
+    <title>DC Motor</title>
+</head>
+<body>
+    <div class="container">
+        <div class="p-5 bg-secondary text-white rounded-1 text-center mb-5">
+            <h1>Arduino - DC Motor</h1>
+        </div>
+        <form id="form" method="POST" action="/" class="mx-md-5 px-md-5">
+            <div class="mb-3">
+                <label for="inputMotorValue" class="form-label">Motor sensitivity value:</label>
+                <input id="inputMotorValue" type="range" class="form-range" min="0" max="1023" step="1" value="%MOTOR_VALUE%" name="motorValue" oninput="submitForm(this)">
+                <div id="motorValueHelp" class="form-text">Motor sensitivity value: <strong id="motorValue">%MOTOR_VALUE%</strong></div>
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    
+    
+
+    setInterval(() => {
+        const motorValue = document.getElementById('motorValue');
+        const inputMotorValue = document.getElementById("inputMotorValue");
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "/motorValue", true);
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState === XMLHttpRequest.DONE){
+                if (xhr.status === 200){
+                    motorValue.innerHTML = xhr.responseText;
+                    inputMotorValue.setAttribute('value',xhr.responseText);
+                }
+            }
+        }
+        xhr.send();
+    }, 10000);
+
+    async function submitForm(e){
+        const motorValue = document.getElementById("motorValue");
+        const form = document.getElementById('form');
+        const formData = new FormData(form);
+        motorValue.innerHTML = formData.get("motorValue");
+        await fetch("/", {
+            body: formData,
+            method: "POST"
+        }).then(function(res){ 
+            console.log(res) 
+        }).catch(function(res){ 
+            console.error(res) 
+        });
+    }
+
+    
+</script>
+</html>
