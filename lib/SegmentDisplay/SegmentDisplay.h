@@ -6,19 +6,19 @@
 class SegmentDisplay
 {
     public:
+        SegmentDisplay();
         SegmentDisplay(int, int, int, int, int, int);
         void displayDecimal(int);
         void displayDecimalDigit(int, int);
         void displayTest();
 
     private:
-	    int displayDigits[4] = {1,2,4,8};
-        int segmentSerialPin;
-        int segmentRegisterClockPin;
-        int segmentShiftRegisterClockPin;
-        int digitSerialPin;
-        int digitRegisterClockPin;
-        int digitShiftRegisterClockPin;
+        int _segmentSerialPin;
+        int _segmentRegisterClockPin;
+        int _segmentShiftRegisterClockPin;
+        int _digitSerialPin;
+        int _digitRegisterClockPin;
+        int _digitShiftRegisterClockPin;
     
 };
 

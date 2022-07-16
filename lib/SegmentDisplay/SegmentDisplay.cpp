@@ -1,21 +1,40 @@
 #include "SegmentDisplay.h"
+#include "pins.h"
 
-SegmentDisplay::SegmentDisplay(int segmentSerialPin, int segmentRegisterClockPin, int segmentShiftRegisterClockPin, int digitSerialPin, int digitRegisterClockPin, int digitShiftRegisterClockPin) {
-	this->segmentSerialPin = segmentSerialPin;
-	this->segmentRegisterClockPin = segmentRegisterClockPin;
-	this->segmentShiftRegisterClockPin = segmentShiftRegisterClockPin;
+SegmentDisplay::SegmentDisplay() {
+	_segmentSerialPin = segmentSerialPin;
+	_segmentRegisterClockPin = segmentRegisterClockPin;
+	_segmentShiftRegisterClockPin = segmentShiftRegisterClockPin;
 
-	this->digitSerialPin = digitSerialPin;
-	this->digitRegisterClockPin = digitRegisterClockPin;
-	this->digitShiftRegisterClockPin = digitShiftRegisterClockPin;
+	_digitSerialPin = digitSerialPin;
+	_digitRegisterClockPin = digitRegisterClockPin;
+	_digitShiftRegisterClockPin = digitShiftRegisterClockPin;
 
-    pinMode(this->segmentSerialPin, OUTPUT); 
-	pinMode(this->segmentRegisterClockPin, OUTPUT);
-	pinMode(this->segmentShiftRegisterClockPin, OUTPUT);
+    pinMode(_segmentSerialPin, OUTPUT); 
+	pinMode(_segmentRegisterClockPin, OUTPUT);
+	pinMode(_segmentShiftRegisterClockPin, OUTPUT);
 
-	pinMode(this->digitSerialPin, OUTPUT);
-	pinMode(this->digitRegisterClockPin, OUTPUT);
-	pinMode(this->digitShiftRegisterClockPin, OUTPUT);
+	pinMode(_digitSerialPin, OUTPUT);
+	pinMode(_digitRegisterClockPin, OUTPUT);
+	pinMode(_digitShiftRegisterClockPin, OUTPUT);
+}
+
+SegmentDisplay::SegmentDisplay(int segmentSerial, int segmentRegisterClock, int segmentShiftRegisterClock, int digitSerial, int digitRegisterClock, int digitShiftRegisterClock) {
+	_segmentSerialPin = segmentSerial;
+	_segmentRegisterClockPin = segmentRegisterClock;
+	_segmentShiftRegisterClockPin = segmentShiftRegisterClock;
+
+	_digitSerialPin = digitSerial;
+	_digitRegisterClockPin = digitRegisterClock;
+	_digitShiftRegisterClockPin = digitShiftRegisterClock;
+
+    pinMode(_segmentSerialPin, OUTPUT); 
+	pinMode(_segmentRegisterClockPin, OUTPUT);
+	pinMode(_segmentShiftRegisterClockPin, OUTPUT);
+
+	pinMode(_digitSerialPin, OUTPUT);
+	pinMode(_digitRegisterClockPin, OUTPUT);
+	pinMode(_digitShiftRegisterClockPin, OUTPUT);
 }
 
 void SegmentDisplay::displayDecimalDigit(int digitToDisplay, int numberToDisplay) {
@@ -41,14 +60,14 @@ void SegmentDisplay::displayDecimalDigit(int digitToDisplay, int numberToDisplay
 	};
 
 
-	digitalWrite(this->digitRegisterClockPin, LOW);
-	digitalWrite(this->segmentRegisterClockPin, LOW);
+	digitalWrite(_digitRegisterClockPin, LOW);
+	digitalWrite(_segmentRegisterClockPin, LOW);
 	delay(4);
 
-	shiftOut(this->digitSerialPin, this->digitShiftRegisterClockPin, MSBFIRST, displayDigits[digitToDisplay-1]);
-	digitalWrite(this->digitRegisterClockPin, HIGH);
-	shiftOut(this->segmentSerialPin, this->segmentShiftRegisterClockPin, MSBFIRST, displayNumbers[numberToDisplay]);
-	digitalWrite(this->segmentRegisterClockPin, HIGH);
+	shiftOut(_digitSerialPin, _digitShiftRegisterClockPin, MSBFIRST, displayDigits[digitToDisplay-1]);
+	digitalWrite(_digitRegisterClockPin, HIGH);
+	shiftOut(_segmentSerialPin, _segmentShiftRegisterClockPin, MSBFIRST, displayNumbers[numberToDisplay]);
+	digitalWrite(_segmentRegisterClockPin, HIGH);
 }
 
 void SegmentDisplay::displayDecimal(int numberToDisplay) {
